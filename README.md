@@ -1,2 +1,9 @@
-# 2024W_madcamp
-This is the git repository for 2024 winter madcamp.
+# 2024-winter-madcamp-week1
+
+## 몰입캠프 1주차 
+### 프로젝트 설명 : 탭 3개로 구성된 안드로이드 어플입니다. 
+### 팀원 : 최현우, 김문원
+
+- 움짤 4개 이상 혹은 20초 이상의 동영상(사진 4장 이상도 가능)
+- APK 파일(직접 업로드 혹은 구글 드라이브에 업로드한 후 링크 공유)
+
