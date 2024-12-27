@@ -62,19 +62,6 @@ fun PreviewMainScreen() {
     }
 }
 
-@Composable
-fun ContactScreen() {
-    Text(text = "Contact Screen", modifier = Modifier.fillMaxSize())
-}
 
-@Composable
-fun GalleryScreen() {
-    Text(text = "Gallery Screen", modifier = Modifier.fillMaxSize())
-}
-
-@Composable
-fun CustomScreen() {
-    Text(text = "Custom Screen", modifier = Modifier.fillMaxSize())
-}
 
 
