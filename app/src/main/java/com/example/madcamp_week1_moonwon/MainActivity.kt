@@ -15,8 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.madcamp_week1_moonwon.ui.theme.Madcampweek1moonwonTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,13 +48,18 @@ fun MainScreen() {
         // innerPadding을 Modifier에 적용
         Box(modifier = Modifier.padding(innerPadding)) {
             when (selectedScreen) {
-                BottomNavItem.Contact -> ContactScreen()
+                BottomNavItem.Contact -> {
+                    // Context를 전달하여 ContactScreen 호출
+                    val context = LocalContext.current
+                    ContactScreenWithViewModel(context)
+                }
                 BottomNavItem.Gallery -> GalleryScreen()
                 BottomNavItem.Custom -> CustomScreen()
             }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

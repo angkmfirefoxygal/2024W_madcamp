@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -57,4 +58,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.appcompat)
+    implementation(libs.gson)
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-compiler:2.44") // kapt 사용
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0") // Compose 지원 라이브러리
 }
+
+
