@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -16,7 +17,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.material3.Text
 
 @Composable
 fun GalleryScreen() {
@@ -33,9 +33,10 @@ fun GalleryScreen() {
         }
         // 상세 화면
         composable("detail/{imageRes}") { backStackEntry ->
-            DetailScreen(
-                imageRes = backStackEntry.arguments?.getString("imageRes")?.toInt()
-            )
+            val imageRes = backStackEntry.arguments?.getString("imageRes")?.toInt()
+            imageRes?.let {
+                DetailScreen(navController = navController, imageRes = it)
+            }
         }
     }
 }
@@ -48,7 +49,8 @@ fun GalleryGrid(navController: NavHostController) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp),
+        contentPadding = PaddingValues(8.dp)
     ) {
         items(tarotImages) { imageRes ->
             Image(
@@ -63,9 +65,4 @@ fun GalleryGrid(navController: NavHostController) {
             )
         }
     }
-}
-
-@Composable
-fun DetailScreen(imageRes: Int?) {
-    Text(text = "Detail Screen for Tarot Card $imageRes")
 }
