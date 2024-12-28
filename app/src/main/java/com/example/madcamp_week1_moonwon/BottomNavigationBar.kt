@@ -8,29 +8,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 
-/*@Composable
-fun BottomNavigationBar(selectedScreen: BottomNavItem, onScreenSelected: (BottomNavItem) -> Unit) {
-    NavigationBar {
-        NavigationBarItem(
-            selected = selectedScreen == BottomNavItem.Contact,
-            onClick = { onScreenSelected(BottomNavItem.Contact) },
-            label = { Text("Contact") },
-            icon = { Icon(Icons.Default.Home, contentDescription = "Contact") }
-        )
-        NavigationBarItem(
-            selected = selectedScreen == BottomNavItem.Gallery,
-            onClick = { onScreenSelected(BottomNavItem.Gallery) },
-            label = { Text("Gallery") },
-            icon = { Icon(Icons.Default.Favorite, contentDescription = "Gallery") }
-        )
-        NavigationBarItem(
-            selected = selectedScreen == BottomNavItem.Custom,
-            onClick = { onScreenSelected(BottomNavItem.Custom) },
-            label = { Text("Custom") },
-            icon = { Icon(Icons.Default.Settings, contentDescription = "Custom") }
-        )
-    }
-}*/
 
 @Composable
 fun BottomNavigationBar(navController: NavController, bottomNavItems: List<BottomNavItem>) {
