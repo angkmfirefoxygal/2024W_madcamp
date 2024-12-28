@@ -65,6 +65,21 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
+            Spacer(modifier = Modifier.height(20.dp))
+
+            //화면 상단 FriendsContact 이미지
+                Image(
+                    painter = painterResource(id = R.drawable.contact), // FriendsContact.png를 리소스에 추가하세요
+                    contentDescription = "Friends Contact Header",
+                    //contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .align(Alignment.Start)
+                )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
             // 상단 고정된 내 프로필
             user?.let {
                 MyProfileCard(contact = it, navController = navController)
@@ -150,7 +165,10 @@ fun MyProfileCard(contact: Contact, navController: NavController) {
                 )
 
                 // 이름과 번호
-                Column {
+                Column(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                ) {
                     BasicText(
                         text = contact.name,
                         style = MaterialTheme.typography.headlineMedium.copy(
@@ -226,7 +244,7 @@ fun ContactCard(contact: Contact,  navController: NavController) {
                 modifier = Modifier
                     .size(90.dp)
                     .padding(end = 16.dp),
-//                contentScale = ContentScale.Crop
+
             )
             Column {
                 BasicText(

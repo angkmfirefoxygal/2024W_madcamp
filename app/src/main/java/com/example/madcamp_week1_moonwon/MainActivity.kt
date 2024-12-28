@@ -1,6 +1,5 @@
 package com.example.madcamp_week1_moonwon
 
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -60,7 +59,9 @@ fun MainScreen() {
         //NavHost 추가 
         NavHost(
             navController = navController,
-            startDestination = BottomNavItem.Contact.route, // 첫 화면은 ContactScreen
+            startDestination = BottomNavItem.Contact.route,
+
+
             modifier = Modifier.padding(innerPadding)
         ) {
 
@@ -98,7 +99,8 @@ fun MainScreen() {
 
             //친구에게 공유하기 화면 이동
             composable("friends_profile") {
-                FriendsProfileChooseScreen()
+                val context = LocalContext.current
+                FriendsProfileChooseScreen(context = context, navController = navController)
             }
 
 
