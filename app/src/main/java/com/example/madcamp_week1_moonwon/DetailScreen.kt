@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.layout.ContentScale
 
 @Composable
 fun DetailScreen(navController: NavController, imageRes: Int) {
@@ -280,6 +281,12 @@ fun DetailScreen(navController: NavController, imageRes: Int) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         // 타로 카드 이미지와 설명
+        Image(
+            painter = painterResource(id = R.drawable.gradation_bg), // PNG 파일의 리소스 ID
+            contentDescription = "Background",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()

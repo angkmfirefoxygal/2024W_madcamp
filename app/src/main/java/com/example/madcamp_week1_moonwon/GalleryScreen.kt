@@ -5,11 +5,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -46,7 +48,12 @@ fun GalleryGrid(navController: NavHostController) {
     val tarotImages = (0..21).map { id ->
         R.drawable::class.java.getField("tarot_$id").getInt(null)
     }
-
+    Image(
+        painter = painterResource(id = R.drawable.gradation_bg), // PNG 파일의 리소스 ID
+        contentDescription = "Background",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize()
+    )
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.padding(8.dp),
