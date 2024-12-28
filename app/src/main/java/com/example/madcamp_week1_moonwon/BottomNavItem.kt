@@ -5,13 +5,11 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
-enum class BottomNavItem(
-    val label: String,
-    val icon: ImageVector
-) {
-    Contact("Contact", Icons.Filled.Home),    // 기본 아이콘: Home
-    Gallery("Gallery", Icons.Filled.Favorite), // 기본 아이콘: Favorite
-    Custom("Custom", Icons.Filled.Settings)   // 기본 아이콘: Settings
-}
 
+
+sealed class BottomNavItem(val route: String, val label: String, val icon: ImageVector) {
+    object Contact : BottomNavItem("contact", "Contact", Icons.Filled.Home)
+    object Gallery : BottomNavItem("gallery", "Gallery", Icons.Filled.Favorite)
+    object Custom : BottomNavItem("custom", "Custom", Icons.Filled.Settings)
+}
 
