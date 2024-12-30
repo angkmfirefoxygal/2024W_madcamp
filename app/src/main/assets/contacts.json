@@ -1,98 +1,79 @@
 [
   {
     "name": "김문원",
-    "phone": "010-9913-8511",
-    "isUser": false
+    "phone": "010-9913-8511"
   },
   {
     "name": "최현우",
-    "phone": "010-2925-1283",
-    "isUser": true
+    "phone": "010-2925-1283"
   },
   {
     "name": "유지민",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "김민정",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "안유진",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "장원영",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "한태산",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "윤도운",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "김원필",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "강영현",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "박성진",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "강영현",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "배주현",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "손승완",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "박수영",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "강슬기",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "김예림",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "박지효",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   },
   {
     "name": "임나연",
-    "phone": "010-0000-0000",
-    "isUser": false
+    "phone": "010-0000-0000"
   }
 
 ]
