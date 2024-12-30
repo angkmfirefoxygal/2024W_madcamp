@@ -223,7 +223,7 @@ fun ContactCard(contact: Contact,  navController: NavController) {
                 // InfoScreen으로 이동하며 이름과 번호를 전달
                 navController.navigate("info/${contact.name}/${contact.phone}")
             },
-        elevation = CardDefaults.cardElevation(
+            elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp, // 기본 elevation
             pressedElevation = 8.dp, // 눌렸을 때 elevation
             focusedElevation = 6.dp  // 포커스 상태의 elevation

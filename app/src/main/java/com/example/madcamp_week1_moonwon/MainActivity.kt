@@ -97,10 +97,14 @@ fun MainScreen() {
                 InfoScreen(name = name, phone = phone)
             }
 
-            //친구에게 공유하기 화면 이동
-            composable("friends_profile") {
-                val context = LocalContext.current
-                FriendsProfileChooseScreen(context = context, navController = navController)
+            // 공유하기 버튼 클릭하고 친구 프로필 고르는 순간 메세지 창 열리도록?
+            composable("friends_profile/{imageUri}") { backStackEntry ->
+                val imageUri = backStackEntry.arguments?.getString("imageUri")
+                FriendsProfileChooseScreen(
+                    navController = navController,
+                    context = LocalContext.current,
+                    imageUri = imageUri
+                )
             }
 
 

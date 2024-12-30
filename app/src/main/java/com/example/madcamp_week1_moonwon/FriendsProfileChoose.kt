@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +24,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +33,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+
 
 // 데이터 클래스 (Contact와 충돌 방지를 위해 별도 클래스 선언)
 data class FriendContact(val name: String, val phone: String, val isUser: Boolean)
@@ -46,7 +51,7 @@ class FriendsProfileViewModel(context: Context) {
 }
 
 @Composable
-fun FriendsProfileChooseScreen(context: Context, navController: NavController) {
+fun FriendsProfileChooseScreen(context: Context, navController: NavController,imageUri: String?) {
     val viewModel = remember { FriendsProfileViewModel(context) }
     val friends = viewModel.friends
 
@@ -81,7 +86,10 @@ fun FriendsProfileChooseScreen(context: Context, navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(friends) { friend ->
-                    FriendProfileCard(friend = friend)
+                    FriendProfileCard(
+                        friend = friend,
+                        context = context,
+                        imageUri = imageUri)
                 }
             }
         }
@@ -91,12 +99,15 @@ fun FriendsProfileChooseScreen(context: Context, navController: NavController) {
 
 // FriendProfileCard: 친구 프로필 개별 카드
 @Composable
-fun FriendProfileCard(friend: FriendContact) {
+fun FriendProfileCard(friend: FriendContact,context: Context, imageUri: String?) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable {
+                sendToMessenger(context, friend.phone, imageUri) // 친구의 번호를 메신저로 전달
+            },
 
             elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp, // 기본 elevation
@@ -144,6 +155,20 @@ fun FriendProfileCard(friend: FriendContact) {
     }
 }
 
+
+//친구 폰번호 메신저 전달 함수
+fun sendToMessenger(context: Context, phoneNumber: String, imageUri: String?) {
+
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        data = Uri.parse("smsto:$phoneNumber") // 'smsto:' 스키마를 사용해 메시지 앱으로 이동
+        type = "image/*" // 첨부 파일의 MIME 타입을 이미지로 설정
+        putExtra(Intent.EXTRA_TEXT, "내 오늘의 운세를 공유할게!") // MMS 내용
+        putExtra(Intent.EXTRA_STREAM, Uri.parse(imageUri)) // 이미지 첨부
+        putExtra("address", phoneNumber) // 수신자 전화번호
+    }
+    context.startActivity(intent)
+}
+
 // 프리뷰용 임시 데이터
 val mockFriends = listOf(
     FriendContact(name = "김문원", phone = "010-9913-8511", isUser = false),
@@ -151,21 +176,3 @@ val mockFriends = listOf(
     FriendContact(name = "손승완", phone = "010-2925-6574", isUser = false)
 )
 
-@Composable
-fun FriendsProfileChoosePreview() {
-    val navController = rememberNavController() // 프리뷰용 NavController
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
-    ) {
-        items(mockFriends) { friend ->
-            FriendProfileCard(friend = friend)
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewFriendsProfileChooseScreen() {
-    FriendsProfileChoosePreview()
-}
