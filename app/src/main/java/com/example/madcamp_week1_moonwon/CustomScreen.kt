@@ -19,18 +19,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import androidx.compose.material3.ButtonDefaults
 
 @Composable
 fun CustomScreen(navController: NavController) {
     // 카드 위치 및 크기 정보
-    val cardWidth = 100.dp
-    val cardHeight = 150.dp
-    val cardSpacing = 100.dp
+    val cardWidth = 150.dp
+    val cardHeight = 200.dp
+    val cardSpacing = 130.dp
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val centerX = screenWidth / 2
@@ -57,14 +59,17 @@ fun CustomScreen(navController: NavController) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        Image (
-            painter = painterResource(id = R.drawable.select_card),
-            contentDescription = "Select Card",
-            modifier = Modifier
-                .width(cardWidth - 10.dp)
-                .height(cardHeight - 10.dp)
-                .offset(x = centerX - cardWidth / 2 + 5.dp, y = centerY - cardHeight / 2 + 5.dp)
-        )
+
+        if(!isCardFlipped.value) {
+            Image (
+                painter = painterResource(id = R.drawable.select_card),
+                contentDescription = "Select Card",
+                modifier = Modifier
+                    .width(cardWidth - 10.dp)
+                    .height(cardHeight - 10.dp)
+                    .offset(x = centerX - cardWidth / 2 + 5.dp, y = centerY - cardHeight / 2 + 5.dp)
+            )
+        }
 
         cardPositions.forEachIndexed { index, xPosition ->
             val animatedOffsetX by animateDpAsState (
@@ -111,12 +116,16 @@ fun CustomScreen(navController: NavController) {
             Button(
                 onClick = {
                     if(selectedCardIndex.value != null) {
-                        isCardFlipped.value = !isCardFlipped.value
+                        isCardFlipped.value = true
                     }
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 95.dp)
+                    .padding(bottom = 120.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFC59ADE), // 보라색 버튼 배경
+                    contentColor = Color.White // 버튼 텍스트 색
+                )
             ) {
                 Text(text = "카드 확인하기")
             }
@@ -130,7 +139,11 @@ fun CustomScreen(navController: NavController) {
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 45.dp)
+                    .padding(bottom = 70.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFC59ADE), // 보라색 버튼 배경
+                    contentColor = Color.White // 버튼 텍스트 색
+                )
             ) {
                 Text(text = "해석 보기")
             }

@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
-import android.widget.ImageView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
@@ -32,6 +31,7 @@ import java.io.FileOutputStream
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 
 
 @Composable
@@ -52,8 +52,6 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-
-
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -79,7 +77,7 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
             Spacer(modifier = Modifier.height(16.dp))
             // 카드 번호와 해석 텍스트 표시
             val customFont = FontFamily(
-                Font(R.font.notosans_black) // 추가한 폰트 이름과 동일
+                Font(R.font.font_two) // 추가한 폰트 이름과 동일
             )
             Text(
                 text = when (cardNumber) {
@@ -109,7 +107,8 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
                 modifier = Modifier.padding(16.dp),
                 style = TextStyle(
                     fontFamily = customFont,
-                    fontSize = 18.sp
+                    color = Color.White,
+                    fontSize = 44.sp
                 )
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -139,7 +138,12 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
                     else -> "모든 일이 순조롭게 마무리될 것입니다. 성취감을 느끼며 보람찬 하루를 보내세요!"
                 },
                 modifier = Modifier.padding(16.dp),
-                style = TextStyle(fontSize = 24.sp)
+                textAlign = TextAlign.Center,
+                style = TextStyle(
+                    fontFamily = customFont,
+                    color = Color.White,
+                    fontSize = 30.sp
+                )
             )
             Spacer(modifier = Modifier.height(32.dp))
 

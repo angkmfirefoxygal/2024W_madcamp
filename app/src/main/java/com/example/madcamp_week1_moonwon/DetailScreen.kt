@@ -15,7 +15,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 
 @Composable
 fun DetailScreen(navController: NavController, imageRes: Int) {
@@ -279,7 +284,10 @@ fun DetailScreen(navController: NavController, imageRes: Int) {
     )
     // 선택된 카드의 설명
     val description = tarotDescriptions[imageRes] ?: "카드 설명이 없습니다."
-
+    // 카드 번호와 해석 텍스트 표시
+    val customFont = FontFamily(
+        Font(R.font.font_one) // 추가한 폰트 이름과 동일
+    )
     Box(modifier = Modifier.fillMaxSize()) {
         // 타로 카드 이미지와 설명
         Image(
@@ -305,7 +313,12 @@ fun DetailScreen(navController: NavController, imageRes: Int) {
             )
             Text(
                 text = description,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
+                style = TextStyle(
+                    fontFamily = customFont,
+                    color = Color.Black,
+                    fontSize = 20.sp
+                )
             )
         }
         // 왼쪽 상단 뒤로 가기 버튼
