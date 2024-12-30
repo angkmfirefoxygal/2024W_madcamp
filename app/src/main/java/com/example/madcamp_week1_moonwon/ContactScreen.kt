@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,11 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.time.LocalDate
@@ -57,10 +54,11 @@ fun ContactScreenWithViewModel(context: Context, navController: NavHostControlle
     ContactScreen(viewModel = viewModel, navController = navController)
 }
 
-// ViewModel to handle data loading
-class ContactViewModel(context: Context) {
 
-    val contacts = loadContacts(context)
+// ViewModel to handle data loading
+open class ContactViewModel(context: Context) {
+
+    open val contacts = loadContacts(context)
 
     private fun loadContacts(context: Context): List<Contact> {
         val jsonString = context.assets.open("contacts.json").bufferedReader().use { it.readText() }
@@ -76,33 +74,33 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
     val user = contacts.firstOrNull { it.isUser } // 사용자 정보 가져오기
     val friends = contacts.filter { !it.isUser } // 친구 목록 가져오기
 
+    // 배경 이미지
+    Image(
+        painter = painterResource(id = R.drawable.gradation_bg),
+        contentDescription = "Background",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .fillMaxSize()
+            .fillMaxWidth()
+            .fillMaxHeight()
+    )
+
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .fillMaxWidth()
+            .fillMaxHeight()
     ) {
-        // 배경 이미지
-        Image(
-            painter = painterResource(id = R.drawable.gradation_bg),
-            contentDescription = "Background",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+
+
+
 
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .fillMaxHeight()
         ) {
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // 화면 상단 FriendsContact 이미지
-            /*Image(
-                painter = painterResource(id = R.drawable.contact),
-                contentDescription = "Friends Contact Header",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .align(Alignment.Start)
-            )*/
-
-            Spacer(modifier = Modifier.height(10.dp))
 
 
 
@@ -110,17 +108,19 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 8.dp),
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 // Friends Contact Header를 첫 번째 아이템으로 추가
                 item {
+                    Spacer(modifier = Modifier.height(15.dp))
                     Image(
                         painter = painterResource(id = R.drawable.contact),
                         contentDescription = "Friends Contact Header",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(50.dp)
+                            .height(50.dp),
+
                     )
                 }
                 // MyProfileCard를 첫 번째 아이템으로 추가
@@ -291,23 +291,4 @@ fun ContactCard(contact: Contact, navController: NavController) {
 
 
 
-//여기서 부터는 프리뷰 코드!
-@Preview(showBackground = true)
-@Composable
-fun ContactCardPreview() {
-    val mockContact = Contact("김문원", "010-9913-8511", true)
-    ContactCard(contact = mockContact, navController = rememberNavController())
-}
 
-@Preview(showBackground = true, name = "My Profile Card Preview")
-@Composable
-fun MyProfileCardPreview() {
-    // Mock 데이터
-    val mockContact = Contact(name = "손승완", "010-0000-0000", false)
-
-    // Mock NavController
-    val mockNavController = rememberNavController()
-
-    // MyProfileCard 호출
-    MyProfileCard(contact = mockContact, navController = mockNavController)
-}

@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
 import android.widget.ImageView
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
@@ -15,8 +17,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -39,12 +44,25 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
     //Button 관련 코드 - 작동 위해서 컴포저블 함수 외부로 이동함(딱히 중요 x)
     val context = LocalContext.current
     val activity = context as? android.app.Activity
-    val capturedUri = remember { mutableStateOf<Uri?>(null) } // MutableState로 상태 관리
+    // MutableState로 상태 관리
+    val capturedUri = remember { mutableStateOf<Uri?>(null) }
+
+
+
+    var isVisible by remember { mutableStateOf(false) }
+
+
+    // 2.5초 지연 후 버튼 표시
+    LaunchedEffect(Unit) {
+        kotlinx.coroutines.delay(2500) // 2.5초 대기
+        isVisible = true // 버튼이 보이도록 상태 변경
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+
 
         Image(
             painter = painterResource(id = R.drawable.star_bg),
@@ -145,34 +163,45 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
 
         }
         // <친구에게 공유하기> 버튼
-        Button(
-            onClick = {
-                val rootView = activity?.window?.decorView?.findViewById<android.view.View>(android.R.id.content)
-
-                rootView?.let { view ->
-                    // 화면 캡처를 수행
-                    val bitmap = captureViewAsBitmap(view)
-                    val uri = bitmap?.let { saveBitmapToCache(context, it) } // 비트맵을 캐시에 저장 후 URI 생성
-                    capturedUri.value = uri
-
-                    // 캡처된 URI와 함께 다음 화면으로 이동
-                    uri?.let {
-                        navController.navigate("friends_profile/${Uri.encode(it.toString())}")
-                    }
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, bottom = 30.dp, end = 16.dp) // 여백 추가
-                .align(Alignment.BottomCenter), // 화면 하단 중앙 정렬
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFC59ADE), // 보라색 버튼 배경
-                contentColor = Color.White // 버튼 텍스트 색
-            )
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = androidx.compose.animation.slideInVertically(
+                initialOffsetY = { fullHeight -> fullHeight }, // 아래에서 시작
+                animationSpec = tween(durationMillis = 1000) // 1초간 애니메이션
+            ),
+            modifier = Modifier.align(Alignment.BottomCenter)
         ) {
-            Text("친구에게 공유하기!")
+            Button(
+                onClick = {
+                    val rootView =
+                        activity?.window?.decorView?.findViewById<android.view.View>(android.R.id.content)
+
+                    rootView?.let { view ->
+                        // 화면 캡처 수행
+                        val bitmap = captureViewAsBitmap(view)
+                        val uri = bitmap?.let { saveBitmapToCache(context, it) } // 비트맵 캐시에 저장
+                        capturedUri.value = uri
+
+                        // 캡처된 URI와 함께 다음 화면으로 이동
+                        uri?.let {
+                            navController.navigate("friends_profile/${Uri.encode(it.toString())}")
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, bottom = 30.dp, end = 16.dp) // 여백 추가
+                    .align(Alignment.BottomCenter), // 화면 하단 중앙 정렬
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFC59ADE), // 보라색 버튼 배경
+                    contentColor = Color.White // 버튼 텍스트 색
+                )
+            ) {
+                Text("친구에게 공유하기!")
+            }
         }
     }
+
 }
 
 fun captureViewAsBitmap(view: android.view.View): Bitmap? {
