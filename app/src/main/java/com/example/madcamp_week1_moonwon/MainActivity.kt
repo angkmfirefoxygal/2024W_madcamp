@@ -68,6 +68,19 @@ fun MainScreen() {
                 ContactScreenWithViewModel(context = context, navController = navController)
             }
 
+            // InfoScreen Route
+            composable(
+                route = "info/{name}/{phone}",
+                arguments = listOf(
+                    navArgument("name") { type = NavType.StringType },
+                    navArgument("phone") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val name = backStackEntry.arguments?.getString("name") ?: "Unknown"
+                val phone = backStackEntry.arguments?.getString("phone") ?: "No Number"
+                InfoScreen(name = name, phone = phone, navController = navController)
+            }
+
             //하단 바 Contact 화면 이동
             composable(BottomNavItem.Contact.route) {
                 val context = LocalContext.current

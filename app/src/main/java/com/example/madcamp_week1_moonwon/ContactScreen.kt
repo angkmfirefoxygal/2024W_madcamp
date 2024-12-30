@@ -276,6 +276,8 @@ fun ContactCard(contact: Contact,  navController: NavController) {
 
 
 
+
+
 //여기서 부터는 프리뷰 코드!
 @Preview(showBackground = true)
 @Composable
