@@ -2,7 +2,6 @@ package com.example.madcamp_week1_moonwon
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
@@ -24,13 +23,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -55,14 +51,21 @@ fun FriendsProfileChooseScreen(context: Context, navController: NavController,im
     val viewModel = remember { FriendsProfileViewModel(context) }
     val friends = viewModel.friends
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        // 배경 이미지
-        Image(
-            painter = painterResource(id = R.drawable.gradation_bg),
-            contentDescription = "Background",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+    // 배경 이미지
+    Image(
+        painter = painterResource(id = R.drawable.gradation_bg),
+        contentDescription = "Background",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth()
+    )
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .fillMaxHeight()
+    ) {
+
 
         Column(modifier = Modifier.padding(16.dp)) {
 
