@@ -50,7 +50,6 @@ data class Contact(
     val isUser: Boolean // 사용자 여부를 구분하는 필드 추가
 )
 
-
 //json을 받아오는 viewModel을 받아오는 ...
 @Composable
 fun ContactScreenWithViewModel(context: Context, navController: NavHostController) {
@@ -94,21 +93,18 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
             // 화면 상단 FriendsContact 이미지
-            Image(
+            /*Image(
                 painter = painterResource(id = R.drawable.contact),
                 contentDescription = "Friends Contact Header",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
                     .align(Alignment.Start)
-            )
+            )*/
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // 상단 고정된 내 프로필
-            user?.let {
-                MyProfileCard(contact = it, navController = navController)
-            }
+
 
             // 친구 목록 (스크롤 가능)
             LazyColumn(
@@ -117,6 +113,23 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
                     .padding(top = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                // Friends Contact Header를 첫 번째 아이템으로 추가
+                item {
+                    Image(
+                        painter = painterResource(id = R.drawable.contact),
+                        contentDescription = "Friends Contact Header",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                    )
+                }
+                // MyProfileCard를 첫 번째 아이템으로 추가
+                item {
+                    user?.let {
+                        MyProfileCard(contact = it, navController = navController)
+                    }
+                }
+
                 items(friends) { friend ->
                     ContactCard(contact = friend, navController = navController)
                 }
@@ -168,7 +181,7 @@ fun MyProfileCard(contact: Contact, navController: NavController) {
                     contentDescription = "Profile Picture",
                     modifier = Modifier
                         .size(90.dp),
-                        //.padding(end = 20.dp),
+                    //.padding(end = 20.dp),
                     contentScale = ContentScale.Crop
                 )
 
@@ -221,7 +234,7 @@ fun MyProfileCard(contact: Contact, navController: NavController) {
 
 
 @Composable
-fun ContactCard(contact: Contact,  navController: NavController) {
+fun ContactCard(contact: Contact, navController: NavController) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -231,7 +244,7 @@ fun ContactCard(contact: Contact,  navController: NavController) {
                 // InfoScreen으로 이동하며 이름과 번호를 전달
                 navController.navigate("info/${contact.name}/${contact.phone}")
             },
-            elevation = CardDefaults.cardElevation(
+        elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp, // 기본 elevation
             pressedElevation = 8.dp, // 눌렸을 때 elevation
             focusedElevation = 6.dp  // 포커스 상태의 elevation
@@ -253,7 +266,7 @@ fun ContactCard(contact: Contact,  navController: NavController) {
                     .size(90.dp)
                     .padding(end = 16.dp),
 
-            )
+                )
             Column {
                 BasicText(
                     text = contact.name,

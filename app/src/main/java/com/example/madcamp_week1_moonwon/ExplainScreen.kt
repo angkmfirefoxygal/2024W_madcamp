@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
+import android.widget.ImageView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
@@ -18,16 +19,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import java.io.File
 import java.io.FileOutputStream
+
 
 @Composable
 fun ExplainScreen(navController : NavController, cardNumber: String?) {
@@ -40,12 +42,16 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+
         Image(
-            painter = painterResource(id = R.drawable.gradation_bg),
+            painter = painterResource(id = R.drawable.star_bg),
             contentDescription = "Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
+
+
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
