@@ -84,7 +84,17 @@ fun MainScreen() {
                 CustomScreen(navController)
             }
 
+            composable("custom_screen") {
+                CustomScreen(navController)
+            }
 
+            composable(
+                route = "explain_screen/{cardNumber}",
+                arguments = listOf(navArgument("cardNumber") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val cardNumber = backStackEntry.arguments?.getString("cardNumber")
+                ExplainScreen(navController = navController, cardNumber = cardNumber)
+            }
 
 
             // 공유하기 버튼 클릭하고 친구 프로필 고르는 순간 메세지 창 열리도록?
