@@ -68,7 +68,7 @@ fun MainScreen() {
                 ContactScreenWithViewModel(context = context, navController = navController)
             }
 
-            // InfoScreen Route
+            // InfoScreen Route in ContactScreen
             composable(
                 route = "info/{name}/{phone}",
                 arguments = listOf(
