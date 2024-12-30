@@ -29,6 +29,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -39,7 +40,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 @Composable
-fun CustomScreen() {
+fun CustomScreen(navController: NavController) {
     // 카드 위치 및 크기 정보
     val cardWidth = 100.dp
     val cardHeight = 150.dp
@@ -61,10 +62,6 @@ fun CustomScreen() {
     val randomNumbers = remember { (0..21).shuffled().take(3) } // 랜덤 숫자
     val selectedCardIndex = remember { mutableStateOf<Int?>(null) } // 클릭한 카드 인덱스
     val isCardFlipped = remember { mutableStateOf(false) } // 카드 회전 여부
-
-    // 이미지
-fun CustomScreen(navController: NavController) {
-
     //Button 관련 코드 - 작동 위해서 컴포저블 함수 외부로 이동함(딱히 중요 x)
     val context = LocalContext.current
     val activity = context as? android.app.Activity
@@ -78,73 +75,6 @@ fun CustomScreen(navController: NavController) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-
-        // <친구에게 공유하기> 버튼
-        Button(
-            onClick = {
-                val rootView = activity?.window?.decorView?.findViewById<android.view.View>(android.R.id.content)
-
-                rootView?.let { view ->
-                    // 화면 캡처를 수행
-                    val bitmap = captureViewAsBitmap(view)
-                    val uri = bitmap?.let { saveBitmapToCache(context, it) } // 비트맵을 캐시에 저장 후 URI 생성
-                    capturedUri.value = uri
-
-                    // 캡처된 URI와 함께 다음 화면으로 이동
-                    uri?.let {
-                        navController.navigate("friends_profile/${Uri.encode(it.toString())}")
-                    }
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, bottom = 30.dp, end = 16.dp) // 여백 추가
-                .align(Alignment.BottomCenter), // 화면 하단 중앙 정렬
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFC59ADE), // 보라색 버튼 배경
-                contentColor = Color.White // 버튼 텍스트 색
-            )
-        ) {
-            Text("친구에게 공유하기!")
-        }
-    }
-}
-
-
-fun captureViewAsBitmap(view: android.view.View): Bitmap? {
-    return try {
-        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        view.draw(canvas)
-        bitmap
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
-}
-
-fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
-    return try {
-        val file = File(context.cacheDir, "captured_image.png")
-        val outputStream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        outputStream.flush()
-        outputStream.close()
-        FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun CustomScreenPreview() {
-    val fakeNavController = rememberNavController() // 더미 NavController
-    CustomScreen(navController = fakeNavController)
-}
-
         Image (
             painter = painterResource(id = R.drawable.select_card),
             contentDescription = "Select Card",
@@ -232,5 +162,62 @@ fun CustomScreenPreview() {
                 .padding(top = 0.dp)
         )
 
+
+        // <친구에게 공유하기> 버튼
+        Button(
+            onClick = {
+                val rootView = activity?.window?.decorView?.findViewById<android.view.View>(android.R.id.content)
+
+                rootView?.let { view ->
+                    // 화면 캡처를 수행
+                    val bitmap = captureViewAsBitmap(view)
+                    val uri = bitmap?.let { saveBitmapToCache(context, it) } // 비트맵을 캐시에 저장 후 URI 생성
+                    capturedUri.value = uri
+
+                    // 캡처된 URI와 함께 다음 화면으로 이동
+                    uri?.let {
+                        navController.navigate("friends_profile/${Uri.encode(it.toString())}")
+                    }
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, bottom = 30.dp, end = 16.dp) // 여백 추가
+                .align(Alignment.BottomCenter), // 화면 하단 중앙 정렬
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFC59ADE), // 보라색 버튼 배경
+                contentColor = Color.White // 버튼 텍스트 색
+            )
+        ) {
+            Text("친구에게 공유하기!")
+        }
     }
 }
+
+
+fun captureViewAsBitmap(view: android.view.View): Bitmap? {
+    return try {
+        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        bitmap
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
+    return try {
+        val file = File(context.cacheDir, "captured_image.png")
+        val outputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+        FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
