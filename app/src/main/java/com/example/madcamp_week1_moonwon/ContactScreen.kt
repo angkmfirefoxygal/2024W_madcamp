@@ -27,7 +27,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.time.LocalDate
@@ -44,6 +49,27 @@ data class Contact(
     val phone: String,
     val isUser: Boolean // 사용자 여부를 구분하는 필드 추가
 )
+
+
+//json을 받아오는 viewModel을 받아오는 ...
+@Composable
+fun ContactScreenWithViewModel(context: Context, navController: NavHostController) {
+    val viewModel = remember { ContactViewModel(context) }
+    ContactScreen(viewModel = viewModel, navController = navController)
+}
+
+// ViewModel to handle data loading
+class ContactViewModel(context: Context) {
+
+    val contacts = loadContacts(context)
+
+    private fun loadContacts(context: Context): List<Contact> {
+        val jsonString = context.assets.open("contacts.json").bufferedReader().use { it.readText() }
+        val listType = object : TypeToken<List<Contact>>() {}.type
+        return Gson().fromJson(jsonString, listType)
+    }
+}
+
 
 @Composable
 fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
@@ -67,16 +93,15 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
         ) {
             Spacer(modifier = Modifier.height(20.dp))
 
-            //화면 상단 FriendsContact 이미지
-                Image(
-                    painter = painterResource(id = R.drawable.contact), // FriendsContact.png를 리소스에 추가하세요
-                    contentDescription = "Friends Contact Header",
-                    //contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .align(Alignment.Start)
-                )
+            // 화면 상단 FriendsContact 이미지
+            Image(
+                painter = painterResource(id = R.drawable.contact),
+                contentDescription = "Friends Contact Header",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .align(Alignment.Start)
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -102,24 +127,7 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
 
 
 
-@Composable
-fun ContactScreenWithViewModel(context: Context, navController: NavController) {
-    val viewModel = remember { ContactViewModel(context) }
-    ContactScreen(viewModel = viewModel, navController = navController)
-}
 
-// ViewModel to handle data loading
-class ContactViewModel(context: Context) {
-
-    val contacts = loadContacts(context)
-
-
-    private fun loadContacts(context: Context): List<Contact> {
-        val jsonString = context.assets.open("contacts.json").bufferedReader().use { it.readText() }
-        val listType = object : TypeToken<List<Contact>>() {}.type
-        return Gson().fromJson(jsonString, listType)
-    }
-}
 
 
 @Composable

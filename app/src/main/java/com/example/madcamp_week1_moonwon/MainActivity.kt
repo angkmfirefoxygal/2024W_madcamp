@@ -48,7 +48,6 @@ fun MainScreen() {
     val navController = rememberNavController() // Tab3 이동 위해서 NavController 생성
     var selectedScreen by remember { mutableStateOf(BottomNavItem.Contact) }
 
-
     Scaffold(
 
         //BottomBar 경로 설정
@@ -59,11 +58,21 @@ fun MainScreen() {
         //NavHost 추가 
         NavHost(
             navController = navController,
-            startDestination = BottomNavItem.Contact.route,
-
-
-            modifier = Modifier.padding(innerPadding)
+            startDestination = "contact",
+            modifier = Modifier.padding(innerPadding),
         ) {
+
+            //Contact 화면에 대한 route
+            composable("contact") {
+                val context = LocalContext.current
+                ContactScreenWithViewModel(context = context, navController = navController)
+            }
+
+            //하단 바 Contact 화면 이동
+            composable(BottomNavItem.Contact.route) {
+                val context = LocalContext.current
+                ContactScreenWithViewModel(context = context, navController = navController)
+            }
 
             //하단 바 Gallery Button 으로 이동
             composable(BottomNavItem.Gallery.route) {
@@ -75,27 +84,8 @@ fun MainScreen() {
                 CustomScreen(navController)
             }
 
-            //개인 프로필 클릭 시 Custom 화면(오늘의 운세) 로 이동
-            composable("contact") {
-                val context = LocalContext.current
-                ContactScreenWithViewModel(context = context, navController = navController )
-            }
-            composable("custom") {
-                CustomScreen(navController) // CustomScreen에 연결된 경로
-            }
 
-            //친구 프로필 클릭 시 친구의 Information 으로 이동
-            composable(
-                route = "info/{name}/{phone}", // 경로에 동적 인자를 추가
-                arguments = listOf(
-                    navArgument("name") { type = NavType.StringType },
-                    navArgument("phone") { type = NavType.StringType }
-                )
-            ) { backStackEntry ->
-                val name = backStackEntry.arguments?.getString("name") ?: "Unknown"
-                val phone = backStackEntry.arguments?.getString("phone") ?: "Unknown"
-                InfoScreen(name = name, phone = phone)
-            }
+
 
             // 공유하기 버튼 클릭하고 친구 프로필 고르는 순간 메세지 창 열리도록?
             composable("friends_profile/{imageUri}") { backStackEntry ->

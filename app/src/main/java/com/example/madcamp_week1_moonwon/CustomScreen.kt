@@ -134,7 +134,7 @@ fun CustomScreen(navController: NavController) {
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 75.dp)
+                    .padding(bottom = 95.dp)
             ) {
                 Text(text = "카드 확인하기")
             }
@@ -147,7 +147,7 @@ fun CustomScreen(navController: NavController) {
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 25.dp)
+                    .padding(bottom = 45.dp)
             ) {
                 Text(text = "해석 보기")
             }

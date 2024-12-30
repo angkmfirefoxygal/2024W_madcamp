@@ -7,10 +7,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.*
+import androidx.navigation.NavController
 
 
 @Composable
-fun InfoScreen(name: String, phone: String) {
+fun InfoScreen(name: String, phone: String, navController: NavController) {
     Column(
 
         horizontalAlignment = Alignment.CenterHorizontally,
