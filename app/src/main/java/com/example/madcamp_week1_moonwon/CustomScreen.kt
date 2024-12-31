@@ -26,18 +26,20 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.material3.ButtonDefaults
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun CustomScreen(navController: NavController) {
     // 카드 위치 및 크기 정보
-    val cardWidth = 150.dp
-    val cardHeight = 200.dp
+    val cardWidth = remember { mutableStateOf(150.dp) }
+    val cardHeight = remember { mutableStateOf(200.dp) }
     val cardSpacing = 130.dp
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val centerX = screenWidth / 2
     val centerY = screenHeight / 2
-    val initialY = 50.dp
+    val initialY = centerY -  cardHeight.value / 2
 
     // 저장할 정보
     val cardPositions = remember {
@@ -50,6 +52,7 @@ fun CustomScreen(navController: NavController) {
     val randomNumbers = remember { (0..21).shuffled().take(3) } // 랜덤 숫자
     val selectedCardIndex = remember { mutableStateOf<Int?>(null) } // 클릭한 카드 인덱스
     val isCardFlipped = remember { mutableStateOf(false) } // 카드 회전 여부
+    val isAnimationComplete = remember { mutableStateOf(false) } // 애니메이션 종료 여부
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -60,33 +63,38 @@ fun CustomScreen(navController: NavController) {
             modifier = Modifier.fillMaxSize()
         )
 
-        if(!isCardFlipped.value) {
-            Image (
-                painter = painterResource(id = R.drawable.select_card),
-                contentDescription = "Select Card",
-                modifier = Modifier
-                    .width(cardWidth - 10.dp)
-                    .height(cardHeight - 10.dp)
-                    .offset(x = centerX - cardWidth / 2 + 5.dp, y = centerY - cardHeight / 2 + 5.dp)
-            )
-        }
-
         cardPositions.forEachIndexed { index, xPosition ->
+            // 애니메이션
             val animatedOffsetX by animateDpAsState (
-                targetValue = if (selectedCardIndex.value == index) centerX else xPosition,
-                animationSpec = tween(durationMillis = 500)
+                targetValue = if (selectedCardIndex.value == index) centerX - 25.dp else xPosition,
+                animationSpec = tween(durationMillis = 1000)
             )
             val animatedOffsetY by animateDpAsState (
-                targetValue = if (selectedCardIndex.value == index) centerY - cardHeight / 2 else initialY,
-                animationSpec = tween(durationMillis = 500)
+                targetValue = if (selectedCardIndex.value == index || selectedCardIndex.value == null) initialY - 50.dp else -1000.dp,
+                animationSpec = tween(durationMillis = 1000)
             )
             val rotationAngle by animateFloatAsState (
                 targetValue = if (isCardFlipped.value && selectedCardIndex.value == index) 180f else 0f,
-                animationSpec = tween(durationMillis = 500)
+                animationSpec = tween(durationMillis = 2000)
             )
+            val animatedWidth by animateDpAsState (
+                targetValue = if (isAnimationComplete.value && selectedCardIndex.value == index) 200.dp else cardWidth.value,
+                animationSpec = tween(durationMillis = 1500)
+            )
+            val animatedHeight by animateDpAsState(
+                targetValue = if (isAnimationComplete.value && selectedCardIndex.value == index) 300.dp else cardHeight.value,
+                animationSpec = tween(durationMillis = 1500)
+            )
+            LaunchedEffect(selectedCardIndex.value) {
+                if(selectedCardIndex.value != null) {
+                    delay(500)
+                    isAnimationComplete.value = true
+                }
+            }
+
             Image(
                 painter = painterResource(
-                    id = if (isCardFlipped.value && selectedCardIndex.value == index) {
+                    id = if (isCardFlipped.value && selectedCardIndex.value == index && rotationAngle > 90f) {
                         val cardNumber = randomNumbers[index]
                         val context = LocalContext.current
                         context.resources.getIdentifier(
@@ -100,28 +108,39 @@ fun CustomScreen(navController: NavController) {
                 ),
                 contentDescription = "Card $index",
                 modifier = Modifier
-                    .width(cardWidth)
-                    .height(cardHeight)
-                    .offset(x = animatedOffsetX - cardWidth / 2, y = animatedOffsetY)
+                    .width(animatedWidth)
+                    .height(animatedHeight)
+                    .offset(x = animatedOffsetX - cardWidth.value / 2, y = animatedOffsetY)
                     .graphicsLayer (
                         rotationY = rotationAngle,
-                        scaleX = if(rotationAngle > 90f) -1f else 1f
+                        scaleX = -1f
                     )
                     .clickable {
                         selectedCardIndex.value = index
                     }
             )
         }
-        if(selectedCardIndex.value !=null) {
+        val coroutineScope = rememberCoroutineScope()
+        val flag1 = remember { mutableStateOf(false) } // "카드 확인하기" 버튼
+        val flag2 = remember { mutableStateOf(false) } // "해석 보러가기" 버튼
+        if(selectedCardIndex.value != null && !flag1.value) {
             Button(
                 onClick = {
-                    if(selectedCardIndex.value != null) {
-                        isCardFlipped.value = true
+                    flag1.value = true
+                    coroutineScope.launch {
+                        delay(1000)
+                        if (selectedCardIndex.value != null) {
+                            isCardFlipped.value = true
+                            coroutineScope.launch {
+                                delay(2000)
+                                flag2.value = true
+                            }
+                        }
                     }
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 120.dp),
+                    .padding(bottom = 70.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFC59ADE), // 보라색 버튼 배경
                     contentColor = Color.White // 버튼 텍스트 색
@@ -129,7 +148,8 @@ fun CustomScreen(navController: NavController) {
             ) {
                 Text(text = "카드 확인하기")
             }
-
+        }
+        if(flag2.value) {
             Button(
                 onClick = {
                     selectedCardIndex.value?.let { index ->
@@ -145,19 +165,9 @@ fun CustomScreen(navController: NavController) {
                     contentColor = Color.White // 버튼 텍스트 색
                 )
             ) {
-                Text(text = "해석 보기")
+                Text(text = "해석 보러가기")
             }
         }
-
-        Text(
-            text = "Selected Card: ${
-                selectedCardIndex.value?.let { randomNumbers[it] } ?: "None"
-            }",
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 0.dp)
-        )
-
 
     }
 }

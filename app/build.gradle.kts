@@ -60,7 +60,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.gson)
     implementation("androidx.navigation:navigation-compose:2.7.2")
-
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("io.coil-kt:coil-gif:2.2.2") // GIF 지원
 
