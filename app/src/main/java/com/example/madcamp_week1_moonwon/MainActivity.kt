@@ -63,7 +63,7 @@ fun MainScreen() {
         NavHost(
             navController = navController,
             startDestination = "contact", // 시작 화면 설정
-            //modifier = Modifier.padding(innerPadding) // Padding 추가
+            modifier = Modifier.padding(innerPadding) // Padding 추가
         ) {
 
             // Contact 화면에 대한 route

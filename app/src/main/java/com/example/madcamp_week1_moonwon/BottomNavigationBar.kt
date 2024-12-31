@@ -19,52 +19,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 
-
 @Composable
 
 fun BottomNavigationBar(navController: NavController, bottomNavItems: List<BottomNavItem>) {
+    // 현재 선택된 경로 확인
+//  val currentRoute = navController.currentBackStackEntry?.destination?.route
     val currentRoute = navController.currentBackStackEntry?.destination?.route ?: ""
 
-    Surface(
-        color = Color(0xFF390E5B), // 네비게이션 바 배경색
-            modifier = Modifier
-            .fillMaxWidth()
-            .height(90.dp) // 높이 설정
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            bottomNavItems.forEach { item ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .clickable {
-                            if (currentRoute != item.route) {
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
+    NavigationBar {
+        bottomNavItems.forEach { item ->
+            NavigationBarItem(
+                selected = currentRoute == item.route,
+                onClick = {
+                    // 중복 클릭 방지 (이미 선택된 화면으로 이동하지 않음)
+                    if (currentRoute != item.route) {
+                        navController.navigate(item.route) {
+                            if (item.route == BottomNavItem.Contact.route) {
+                                // Contact로 이동 시 초기화
+                                popUpTo(navController.graph.startDestinationId) {
+                                    inclusive = false // StartDestination는 유지
                                 }
                             }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                ) {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.label,
-                        tint = if (currentRoute == item.route) Color.White else Color.Gray, // 선택된 탭 색상
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Text(
-                        text = item.label,
-                        color = if (currentRoute == item.route) Color.White else Color.Gray, // 선택된 탭 색상
-                        fontSize = 10.sp // 텍스트 크기 설정
-                    )
-                }
-            }
+                    }
+                },
+                label = { Text(item.label) },
+                icon = { Icon(item.icon, contentDescription = item.label) }
+            )
         }
     }
 }
