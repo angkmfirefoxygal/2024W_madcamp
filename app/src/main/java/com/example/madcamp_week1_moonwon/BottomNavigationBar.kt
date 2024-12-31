@@ -27,11 +27,9 @@ fun BottomNavigationBar(navController: NavController, bottomNavItems: List<Botto
 
     Surface(
         color = Color(0xFF390E5B), // 네비게이션 바 배경색
-        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp), // 둥근 모서리
-        shadowElevation = 8.dp, // 그림자 효과
-        modifier = Modifier
+            modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp) // 높이 설정
+            .height(100.dp) // 높이 설정
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),

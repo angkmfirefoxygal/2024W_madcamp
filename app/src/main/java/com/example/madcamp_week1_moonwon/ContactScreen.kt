@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import android.content.Context
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.Button
@@ -19,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -29,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.time.LocalDate
@@ -43,7 +47,8 @@ import java.util.Locale
 data class Contact(
     val name: String,
     val phone: String,
-    val isUser: Boolean // 사용자 여부를 구분하는 필드 추가
+    val isUser: Boolean,
+    val imageUri: String // 이미지 URI 필드 추가
 )
 
 //json을 받아오는 viewModel을 받아오는 ...
@@ -75,7 +80,7 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
 
     // 배경 이미지
     Image(
-        painter = painterResource(id = R.drawable.dark_bg),
+        painter = painterResource(id = R.drawable.gradation_bg),
         contentDescription = "Background",
         contentScale = ContentScale.Crop,
         modifier = Modifier
@@ -108,7 +113,7 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
             ) {
                 // Friends Contact Header를 첫 번째 아이템으로 추가
                 item {
-                    Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(25.dp))
                     Image(
                         painter = painterResource(id = R.drawable.contact),
                         contentDescription = "Friends Contact Header",
@@ -183,15 +188,22 @@ fun MyProfileCard(contact: Contact, navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // 프로필 이미지
-                Image(
-                    painter = painterResource(id = R.drawable.profile_placeholder),
-                    contentDescription = "Profile Picture",
+
+
+
+                // 프로필 이미지를 원형으로 크롭하고 센터 정렬
+                Box(
                     modifier = Modifier
-                        .size(90.dp),
-                    //.padding(end = 20.dp),
-                    contentScale = ContentScale.Crop
-                )
+                        .size(70.dp) // 원형 크기
+                        .clip(CircleShape) // 원형으로 자르기
+                ) {
+                    AsyncImage(
+                        model = contact.imageUri,
+                        contentDescription = "Profile Picture",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop // 센터 크롭
+                    )
+                }
 
                 // 이름과 번호
                 Column(
@@ -249,8 +261,11 @@ fun ContactCard(contact: Contact, navController: NavController) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable {
-                // InfoScreen으로 이동하며 이름과 번호를 전달
-                navController.navigate("info/${contact.name}/${contact.phone}")
+                // InfoScreen으로 이동하며 name, phone, imageUri를 전달
+                //navController.navigate("info/${contact.name}/${contact.phone}/${contact.imageUri}")
+
+                val route = "info/${Uri.encode(contact.name)}/${Uri.encode(contact.phone)}/${Uri.encode(contact.imageUri)}"
+                navController.navigate(route)
             },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp, // 기본 elevation
@@ -267,15 +282,27 @@ fun ContactCard(contact: Contact, navController: NavController) {
                 .padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile_placeholder),
-                contentDescription = "Profile Picture",
-                modifier = Modifier
-                    .size(70.dp)
-                    .padding(end = 10.dp),
 
+
+            // 이미지를 원형으로 크롭하고 센터 정렬
+            Box(
+                modifier = Modifier
+                    .size(70.dp) // 원형 크기
+                    .clip(CircleShape) // 원형으로 자르기
+            ) {
+                AsyncImage(
+                    model = contact.imageUri,
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop // 센터 크롭
                 )
-            Column {
+            }
+
+
+            Column (
+                modifier = Modifier
+                    .padding(start = 10.dp)
+            ){
                 BasicText(
                     text = contact.name,
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -303,7 +330,8 @@ fun ContactCardPreview() {
     val dummyContact = Contact(
         name = "Friend Name",
         phone = "010-1234-5678",
-        isUser = false
+        isUser = false,
+        imageUri = "https://cdn.mhnse.com/news/photo/202410/341169_389007_1445.jpg"
     )
     val dummyNavController = rememberNavController()
 
@@ -316,7 +344,8 @@ fun MyProfileCardPreview() {
     val dummyContact = Contact(
         name = "User Name",
         phone = "010-9876-5432",
-        isUser = true
+        isUser = true,
+        imageUri = "https://cdn.mhnse.com/news/photo/202410/341169_389007_1445.jpg"
     )
     val dummyNavController = rememberNavController()
 

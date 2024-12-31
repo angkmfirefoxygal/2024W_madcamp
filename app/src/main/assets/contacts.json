@@ -2,97 +2,110 @@
   {
     "name": "김문원",
     "phone": "010-9913-8511",
-    "isUser" : true
+    "isUser" : true,
+    "imageUri": "https://cdn.epnnews.com/news/photo/202009/5344_6506_3653.jpg"
   },
   {
     "name": "최현우",
     "phone": "010-2925-1283",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://www.studiopeople.kr/common/img/default_profile.png"
   },
   {
     "name": "조성원",
     "phone": "010-6215-4759",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://www.studiopeople.kr/common/img/default_profile.png"
   },
   {
     "name": "이민주",
     "phone": "010-7176-9358",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://www.studiopeople.kr/common/img/default_profile.png"
   },
   {
     "name": "장래오",
     "phone": "010-9794-5355",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://www.studiopeople.kr/common/img/default_profile.png"
   },
   {
     "name": "장원영",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser": false,
+    "imageUri": "https://i.namu.wiki/i/8SYj8yiphWO7XAEmbEpqIdUDRUbXHBhVtgxkmeo2j63MqkY_FBfxh8-S_JyJT5X2AcSl7hWYwUfK_s8KbXpy-Q.webp"
   },
   {
     "name": "한태산",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://image.zeta-ai.io/profile-image/455f4259-a53c-4616-ad77-8e815e6e72d3/97cd69b1-ed53-4dfe-a7c9-59fd2039269c.jpeg?w=750&q=75&f=webp"
   },
   {
     "name": "윤도운",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://i.namu.wiki/i/ttP47erwWAbcNbOlbvXrYpvbNYBwiTSnj9-zrNmzF6jiPqbUPW4kDhwlsdtrYKdPd_i9sMWHcWaHOFeP9W7Rlw.webp"
   },
   {
     "name": "김원필",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://i.pinimg.com/736x/31/cc/0b/31cc0b36a5b9fb4b268a3bd6b6494605.jpg"
   },
   {
     "name": "강영현",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://cdn.hankyung.com/photo/202312/03.35346173.1.jpg"
   },
   {
     "name": "박성진",
     "phone": "010-0000-0000",
-    "isUser" : false
-  },
-  {
-    "name": "강영현",
-    "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://thumbnews.nateimg.co.kr/view610///news.nateimg.co.kr/orgImg/cb/2024/09/02/202409021707515957_0.jpg"
   },
   {
     "name": "배주현",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://dimg.donga.com/wps/NEWS/IMAGE/2024/11/27/130512780.1.jpg"
   },
   {
     "name": "손승완",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2024/05/10/f4ef17f7-b5db-4eb9-9c6e-2f0833530560.jpeg"
   },
   {
     "name": "박수영",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://image.xportsnews.com/contents/images/upload/article/2023/0621/mb_1687330410281160.jpg"
   },
   {
     "name": "강슬기",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://i.namu.wiki/i/iAUvbWNvU12Viy7TiU-UUTQkskc8y9a3XcfYJ8vgN6kduWgOasK59Unejs9uCpLoymSoeD0DymUU6hF8lkOA7A.webp"
   },
   {
     "name": "김예림",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://image.xportsnews.com/contents/images/upload/article/2020/0731/mb_1596180596310903.jpg"
   },
   {
     "name": "박지효",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202308/20/b1dbe9df-2870-406a-8447-6ae5179e99e0.jpg"
   },
   {
     "name": "임나연",
     "phone": "010-0000-0000",
-    "isUser" : false
+    "isUser" : false,
+    "imageUri": "https://cdn.mhnse.com/news/photo/202410/341169_389007_1445.jpg"
   }
 
 ]
