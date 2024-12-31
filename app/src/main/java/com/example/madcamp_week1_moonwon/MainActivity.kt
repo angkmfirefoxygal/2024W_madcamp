@@ -72,6 +72,16 @@ fun MainScreen() {
                 ContactScreenWithViewModel(context = context, navController = navController)
             }
 
+            // 하단 바 Gallery Button 이동
+            composable("gallery") {
+                GalleryScreen()
+            }
+
+            //
+            composable("custom_screen") {
+                CustomScreen(navController)
+            }
+
             // InfoScreen에 대한 route
             composable(
                 route = "info/{name}/{phone}/{imageUri}",
@@ -94,19 +104,18 @@ fun MainScreen() {
                 ContactScreenWithViewModel(context = context, navController = navController)
             }
 
-            // 하단 바 Gallery Button 이동
-            composable(BottomNavItem.Gallery.route) {
-                GalleryScreen()
+            composable(BottomNavItem.Custom.route){
+                CustomScreen(navController)
             }
+
+
 
             // 하단 바 Custom 화면(오늘의 운세) 이동
             composable(BottomNavItem.Custom.route) {
                 CustomScreen(navController)
             }
 
-            composable("custom_screen") {
-                CustomScreen(navController)
-            }
+
 
             composable(
                 route = "explain_screen/{cardNumber}",
