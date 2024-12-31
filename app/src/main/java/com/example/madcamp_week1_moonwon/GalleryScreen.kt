@@ -88,7 +88,7 @@ fun GalleryGrid(navController: NavHostController) {
 
         // 배경 이미지
         Image(
-            painter = painterResource(id = R.drawable.dark_bg),
+            painter = painterResource(id = R.drawable.gradation_bg),
             contentDescription = "Background",
             contentScale = ContentScale.Crop, // 화면 전체를 채우도록 설정
             modifier = Modifier.matchParentSize() // Box 크기에 맞추기
