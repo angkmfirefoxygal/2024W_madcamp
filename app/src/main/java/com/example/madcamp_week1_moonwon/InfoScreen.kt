@@ -32,7 +32,7 @@ fun InfoScreen(name: String, phone: String,imageUri: String,  navController: Nav
 
     // 배경 이미지
     Image(
-        painter = painterResource(id = R.drawable.dark_bg),
+        painter = painterResource(id = R.drawable.gradation_bg),
         contentDescription = "Background",
         contentScale = ContentScale.Crop,
         modifier = Modifier

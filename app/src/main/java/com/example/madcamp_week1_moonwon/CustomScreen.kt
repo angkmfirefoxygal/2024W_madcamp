@@ -57,7 +57,7 @@ fun CustomScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.dark_bg),
+            painter = painterResource(id = R.drawable.gradation_bg),
             contentDescription = "Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier
