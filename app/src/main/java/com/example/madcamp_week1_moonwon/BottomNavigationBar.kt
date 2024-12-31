@@ -29,7 +29,7 @@ fun BottomNavigationBar(navController: NavController, bottomNavItems: List<Botto
         color = Color(0xFF390E5B), // 네비게이션 바 배경색
             modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp) // 높이 설정
+            .height(90.dp) // 높이 설정
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
