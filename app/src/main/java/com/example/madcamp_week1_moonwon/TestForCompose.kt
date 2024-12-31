@@ -1,86 +1,53 @@
 package com.example.madcamp_week1_moonwon
 
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.platform.LocalConfiguration
+
 
 @Composable
-fun GalleryScreen() {
-    // GalleryScreen에서 사용할 NavController 생성
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = "galleryGrid"
-    ) {
-        // 기본 갤러리 화면
-        composable("galleryGrid") {
-            GalleryGrid(navController)
-        }
-        // 상세 화면
-        composable("detail/{imageRes}") { backStackEntry ->
-            val imageRes = backStackEntry.arguments?.getString("imageRes")?.toInt()
-            imageRes?.let {
-                DetailScreen(navController = navController, imageRes = it)
-            }
-        }
-    }
-}
-
-@Composable
-fun GalleryGrid(navController: NavHostController) {
-
+fun CardWithBoxExample(navController: NavController) {
 
     //화면 최대로 채우도록
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
-    // 이미지 리소스를 가져와서 ImageBitmap으로 변환
-    val backgroundBitmap: ImageBitmap = ImageBitmap.imageResource(id = R.drawable.dark_bg)
+
 
     Box(modifier = Modifier
         .size(screenWidth, screenHeight) // 화면 크기를 명시적으로 설정
@@ -102,6 +69,9 @@ fun GalleryGrid(navController: NavHostController) {
             modifier = Modifier
                 .padding(5.dp)
                 .fillMaxSize()
+                .matchParentSize()
+
+
         ) {
 
 
@@ -153,20 +123,18 @@ fun GalleryGrid(navController: NavHostController) {
 
             // 남은 빈 공간 채우기
             item {
-                Spacer(modifier = Modifier.height(56.dp)) // 마지막 공간 조정
+                Spacer(modifier = Modifier.height(16.dp)) // 마지막 공간 조정
             }
         }
 
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewGalleryGrid(){
+fun PreviewCardWithBoxExample() {
     // 테스트용 NavController
     val navController = rememberNavController()
 
-    GalleryGrid(navController = navController)
+    CardWithBoxExample(navController = navController)
 }
-

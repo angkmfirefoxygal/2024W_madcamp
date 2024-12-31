@@ -57,10 +57,13 @@ fun CustomScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.gradation_bg),
+            painter = painterResource(id = R.drawable.dark_bg),
             contentDescription = "Background",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .fillMaxHeight()
         )
 
         cardPositions.forEachIndexed { index, xPosition ->

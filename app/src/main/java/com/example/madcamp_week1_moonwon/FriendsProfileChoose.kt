@@ -53,7 +53,7 @@ fun FriendsProfileChooseScreen(context: Context, navController: NavController,im
 
     // 배경 이미지
     Image(
-        painter = painterResource(id = R.drawable.gradation_bg),
+        painter = painterResource(id = R.drawable.dark_bg),
         contentDescription = "Background",
         contentScale = ContentScale.Crop,
         modifier = Modifier
@@ -63,11 +63,11 @@ fun FriendsProfileChooseScreen(context: Context, navController: NavController,im
     )
     Box(modifier = Modifier
         .fillMaxSize()
-        .fillMaxHeight()
     ) {
 
-
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier
+            .fillMaxHeight()
+            .padding(30.dp)) {
 
             Spacer(modifier = Modifier.height(20.dp))
             //화면 상단 FriendsContact 이미지
@@ -85,8 +85,10 @@ fun FriendsProfileChooseScreen(context: Context, navController: NavController,im
 
             // 친구 프로필을 LazyColumn으로 표시
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .fillMaxSize(),
+
+                verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 items(friends) { friend ->
                     FriendProfileCard(
@@ -108,6 +110,7 @@ fun FriendProfileCard(friend: FriendContact,context: Context, imageUri: String?)
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .height(80.dp)
             .clickable {
                 sendToMessenger(context, friend.phone, imageUri) // 친구의 번호를 메신저로 전달
             },

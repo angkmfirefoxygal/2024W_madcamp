@@ -60,9 +60,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.gson)
     implementation("androidx.navigation:navigation-compose:2.7.2")
-    implementation("io.coil-kt:coil-compose:2.2.2")
-    implementation("io.coil-kt:coil-gif:2.2.2") // GIF 지원
-
+    implementation ("androidx.compose.material:material:1.5.3")// Material Design
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.3")
 }
 
 

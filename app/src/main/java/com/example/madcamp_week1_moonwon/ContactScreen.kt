@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -76,13 +75,11 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
 
     // 배경 이미지
     Image(
-        painter = painterResource(id = R.drawable.gradation_bg),
+        painter = painterResource(id = R.drawable.dark_bg),
         contentDescription = "Background",
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .fillMaxSize()
-            .fillMaxWidth()
-            .fillMaxHeight()
     )
 
     Box(
@@ -94,14 +91,12 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
 
 
 
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-
 
 
             // 친구 목록 (스크롤 가능)
@@ -119,7 +114,8 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
                         contentDescription = "Friends Contact Header",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(50.dp),
+                            .padding(bottom = 5.dp)
+                            .height(40.dp),
 
                     )
                 }
@@ -133,7 +129,19 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController) {
                 items(friends) { friend ->
                     ContactCard(contact = friend, navController = navController)
                 }
+
+
+                // 맨 마지막에 빈 아이템 추가
+                item {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp) // 80dp 높이의 빈 공간 추가
+                    )
+                }
+
             }
+
         }
     }
 }
@@ -151,7 +159,7 @@ fun MyProfileCard(contact: Contact, navController: NavController) {
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFFFFCE8))
     ) {
@@ -239,7 +247,7 @@ fun ContactCard(contact: Contact, navController: NavController) {
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable {
                 // InfoScreen으로 이동하며 이름과 번호를 전달
                 navController.navigate("info/${contact.name}/${contact.phone}")
@@ -256,15 +264,15 @@ fun ContactCard(contact: Contact, navController: NavController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 painter = painterResource(id = R.drawable.profile_placeholder),
                 contentDescription = "Profile Picture",
                 modifier = Modifier
-                    .size(90.dp)
-                    .padding(end = 16.dp),
+                    .size(70.dp)
+                    .padding(end = 10.dp),
 
                 )
             Column {
@@ -289,6 +297,29 @@ fun ContactCard(contact: Contact, navController: NavController) {
 
 
 
+@Preview(showBackground = true, widthDp = 360, heightDp = 100)
+@Composable
+fun ContactCardPreview() {
+    val dummyContact = Contact(
+        name = "Friend Name",
+        phone = "010-1234-5678",
+        isUser = false
+    )
+    val dummyNavController = rememberNavController()
 
+    ContactCard(contact = dummyContact, navController = dummyNavController)
+}
 
+@Preview(showBackground = true, widthDp = 360, heightDp = 250)
+@Composable
+fun MyProfileCardPreview() {
+    val dummyContact = Contact(
+        name = "User Name",
+        phone = "010-9876-5432",
+        isUser = true
+    )
+    val dummyNavController = rememberNavController()
+
+    MyProfileCard(contact = dummyContact, navController = dummyNavController)
+}
 
