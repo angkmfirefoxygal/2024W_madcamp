@@ -42,7 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun ExplainScreen(navController : NavController, cardNumber: String?) {
-    //Button 관련 코드 - 작동 위해서 컴포저블 함수 외부로 이동함(딱히 중요 x)
+    //Button 관련 코드 - 작동 위해서 컴포저블 함수 외부로 빼놓았음(딱히 중요 x)
     val context = LocalContext.current
     val activity = context as? android.app.Activity
     // MutableState로 상태 관리
@@ -183,7 +183,7 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
 
                     rootView?.let { view ->
                         // 화면 캡처 수행
-                        val bitmap = captureViewAsBitmap(view)
+                        val bitmap = captureViewAsBitmap(view, 0, 20,1060, 1800)
                         val uri = bitmap?.let { saveBitmapToCache(context, it) } // 비트맵 캐시에 저장
                         capturedUri.value = uri
 
@@ -208,6 +208,7 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
     }
 
 }
+/*
 
 fun captureViewAsBitmap(view: android.view.View): Bitmap? {
     return try {
@@ -220,6 +221,23 @@ fun captureViewAsBitmap(view: android.view.View): Bitmap? {
         null
     }
 }
+*/
+
+fun captureViewAsBitmap(view: android.view.View, x: Int, y: Int, width: Int, height: Int): Bitmap? {
+    return try {
+        // 전체 뷰를 비트맵으로 생성
+        val fullBitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(fullBitmap)
+        view.draw(canvas)
+
+        // 특정 영역만 잘라내기
+        Bitmap.createBitmap(fullBitmap, x, y, width, height)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
 
 fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
     return try {

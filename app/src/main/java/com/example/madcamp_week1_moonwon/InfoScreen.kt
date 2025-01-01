@@ -26,6 +26,10 @@ import coil.compose.AsyncImage
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 
 @Composable
 fun InfoScreen(name: String, phone: String,imageUri: String,  navController: NavController) {
@@ -106,44 +110,6 @@ fun InfoScreen(name: String, phone: String,imageUri: String,  navController: Nav
                 }
             }
 
-            /*Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(10.dp)
-                    .height(130.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // 전화 카드
-                ActionCard(
-                    icon = R.drawable.call, // 전화 아이콘
-                    label = "Call",
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
-                        navController.context.startActivity(intent)
-                    }
-                )
-                // 문자 카드
-                ActionCard(
-                    icon = R.drawable.message, // 문자 아이콘
-                    label = "Message",
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:$phone"))
-                        navController.context.startActivity(intent)
-                    }
-                )
-                // 영상통화 카드
-                ActionCard(
-                    icon = R.drawable.video_call, // 영상통화 아이콘
-                    label = "Video Call",
-                    onClick = {
-                        // 영상통화 Intent 설정
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("tel:$phone"))
-                        navController.context.startActivity(intent)
-                    }
-                )
-            }*/
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -186,47 +152,23 @@ fun InfoScreen(name: String, phone: String,imageUri: String,  navController: Nav
 
 
 
+        }
 
+        // 왼쪽 상단 뒤로 가기 버튼
+        IconButton(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .align(Alignment.TopStart) // 왼쪽 상단에 배치
+                .padding(16.dp) // 화면 경계에서 16dp 떨어뜨림
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack, // Material Design 화살표 아이콘
+                contentDescription = "뒤로 가기"
+            )
+        }
 
-            /* Row(
-     modifier = Modifier
-         .padding(10.dp)
-         .height(130.dp),
-     horizontalArrangement = Arrangement.SpaceEvenly, // 카드 간격을 균등하게 분배
-     verticalAlignment = Alignment.CenterVertically // 세로 정렬
- ){
-     Card(
-         shape = RoundedCornerShape(16.dp), // 모서리를 둥글게 설정
-         modifier = Modifier
-             .weight(1f) // 각 카드가 Row의 1/3 공간을 차지
-             .width(800.dp) // 가로 크기 직접 지정
-             .height(90.dp) // 세로 크기 직접 지정
-             .padding(10.dp), // 카드 외부 여백
-         elevation = CardDefaults.cardElevation(8.dp), // 그림자 효과
-     ) { }
-     Card(
-         shape = RoundedCornerShape(16.dp), // 모서리를 둥글게 설정
-         modifier = Modifier
-             .weight(1f) // 각 카드가 Row의 1/3 공간을 차지
-             .width(800.dp) // 가로 크기 직접 지정
-             .height(90.dp) // 세로 크기 직접 지정
-             .padding(10.dp), // 카드 외부 여백
-         elevation = CardDefaults.cardElevation(8.dp), // 그림자 효과
-     ) { }
-     Card(
-         shape = RoundedCornerShape(16.dp), // 모서리를 둥글게 설정
-         modifier = Modifier
-             .weight(1f) // 각 카드가 Row의 1/3 공간을 차지
-             .width(800.dp) // 가로 크기 직접 지정
-             .height(90.dp) // 세로 크기 직접 지정
-             .padding(10.dp), // 카드 외부 여백
-         elevation = CardDefaults.cardElevation(8.dp), // 그림자 효과
-     ) { }
- }*/
-
-                    }
-                }
-            }
+    }
+}
 
 
 @Composable
@@ -264,6 +206,8 @@ fun ActionCard(icon: Int, label: String, onClick: () -> Unit, modifier: Modifier
             )
         }
     }
+
+
 }
 
 @Preview(showBackground = true, widthDp = 360, heightDp = 640)

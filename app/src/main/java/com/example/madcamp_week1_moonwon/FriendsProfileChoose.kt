@@ -16,29 +16,36 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import coil.compose.AsyncImage
+import androidx.navigation.compose.rememberNavController // for rememberNavController
+import androidx.compose.ui.platform.LocalContext // for LocalContext
+
 
 
 // 데이터 클래스 (Contact와 충돌 방지를 위해 별도 클래스 선언)
-data class FriendContact(val name: String, val phone: String, val isUser: Boolean)
+data class FriendContact(val name: String, val phone: String, val isUser: Boolean,val imageUri: String )
 
 // ViewModel: JSON 데이터를 로드하고, isUser=false인 데이터를 필터링
-class FriendsProfileViewModel(context: Context) {
-    val friends = loadFriends(context)
+open class FriendsProfileViewModel(context: Context) {
+    open val friends = loadFriends(context)
 
-    private fun loadFriends(context: Context): List<FriendContact> {
+    fun loadFriends(context: Context): List<FriendContact> {
         val jsonString = context.assets.open("contacts.json").bufferedReader().use { it.readText() }
         val listType = object : TypeToken<List<FriendContact>>() {}.type
         val allContacts: List<FriendContact> = Gson().fromJson(jsonString, listType)
@@ -63,33 +70,54 @@ fun FriendsProfileChooseScreen(context: Context, navController: NavController,im
     )
     Box(modifier = Modifier
         .fillMaxSize()
+        .fillMaxWidth()
+        .fillMaxHeight()
     ) {
 
-        Column(modifier = Modifier
-            .fillMaxHeight()
-            .padding(30.dp)) {
 
-            Spacer(modifier = Modifier.height(20.dp))
-            //화면 상단 FriendsContact 이미지
-            Image(
-                painter = painterResource(id = R.drawable.friends_contact), // FriendsContact.png를 리소스에 추가하세요
-                contentDescription = "Friends Contact Header",
-                //contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .align(Alignment.Start)
-            )
 
-            Spacer(modifier = Modifier.height(10.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .fillMaxHeight()
+            ) {
+
+
+
 
             // 친구 프로필을 LazyColumn으로 표시
             LazyColumn(
                 modifier = Modifier
+                    .fillMaxHeight()
                     .fillMaxSize(),
 
-                verticalArrangement = Arrangement.spacedBy(5.dp)
+
+
+                //verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
+
+
+                // Spacer와 Image를 LazyColumn의 첫 번째 아이템으로 추가
+                item {
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    ) {
+
+                        Image(
+                            painter = painterResource(id = R.drawable.friends_contact),
+                            contentDescription = "Friends Contact Header",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(33.dp)
+                        )
+                    }
+                }
+
                 items(friends) { friend ->
                     FriendProfileCard(
                         friend = friend,
@@ -109,7 +137,7 @@ fun FriendProfileCard(friend: FriendContact,context: Context, imageUri: String?)
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(15.dp)
             .height(80.dp)
             .clickable {
                 sendToMessenger(context, friend.phone, imageUri) // 친구의 번호를 메신저로 전달
@@ -131,17 +159,27 @@ fun FriendProfileCard(friend: FriendContact,context: Context, imageUri: String?)
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // 프로필 이미지
-            Image(
-                painter = painterResource(id = R.drawable.profile_placeholder),
-                contentDescription = "Profile Picture",
+
+            // 이미지를 원형으로 크롭하고 센터 정렬
+            Box(
                 modifier = Modifier
-                    .size(90.dp)
-                    .padding(end = 16.dp),
-            )
+                    .size(50.dp) // 원형 크기
+                    .clip(CircleShape) // 원형으로 자르기
+            ) {
+                AsyncImage(
+                    model = friend.imageUri,
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop // 센터 크롭
+                )
+            }
+
 
             // 이름과 전화번호 텍스트
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(start = 10.dp)
+            ) {
                 BasicText(
                     text = friend.name,
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -175,10 +213,51 @@ fun sendToMessenger(context: Context, phoneNumber: String, imageUri: String?) {
     context.startActivity(intent)
 }
 
-// 프리뷰용 임시 데이터
+
+
+
 val mockFriends = listOf(
-    FriendContact(name = "김문원", phone = "010-9913-8511", isUser = false),
-    FriendContact(name = "최현우", phone = "010-2925-1283", isUser = false),
-    FriendContact(name = "손승완", phone = "010-2925-6574", isUser = false)
+    FriendContact(
+        name = "김문원",
+        phone = "010-9913-8511",
+        isUser = false,
+        imageUri = "https://via.placeholder.com/150" // Placeholder 이미지
+    ),
+    FriendContact(
+        name = "최현우",
+        phone = "010-2925-1283",
+        isUser = false,
+        imageUri = "https://via.placeholder.com/150" // Placeholder 이미지
+    ),
+    FriendContact(
+        name = "손승완",
+        phone = "010-2925-6574",
+        isUser = false,
+        imageUri = "https://via.placeholder.com/150" // Placeholder 이미지
+    )
 )
+@Preview(showBackground = true)
+@Composable
+fun PreviewFriendProfileCard() {
+    FriendProfileCard(
+        friend = FriendContact(
+            name = "김문원",
+            phone = "010-9913-8511",
+            isUser = false,
+            imageUri = "https://via.placeholder.com/150"
+        ),
+        context = LocalContext.current,
+        imageUri = "https://via.placeholder.com/150"
+    )
+}
+
+@Preview(showBackground = true, widthDp = 360, heightDp = 640)
+@Composable
+fun PreviewFriendsProfileChooseScreen() {
+    FriendsProfileChooseScreen(
+        context = LocalContext.current,
+        navController = rememberNavController(),
+        imageUri = "https://via.placeholder.com/150"
+    )
+}
 

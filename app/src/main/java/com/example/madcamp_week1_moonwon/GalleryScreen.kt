@@ -86,6 +86,9 @@ fun GalleryGrid(navController: NavHostController) {
         .size(screenWidth, screenHeight) // 화면 크기를 명시적으로 설정
         .fillMaxSize()) {
 
+
+
+
         // 배경 이미지
         Image(
             painter = painterResource(id = R.drawable.gradation_bg),
@@ -100,10 +103,15 @@ fun GalleryGrid(navController: NavHostController) {
 
         LazyColumn(
             modifier = Modifier
-                .padding(5.dp)
+                .padding(10.dp)
                 .fillMaxSize()
         ) {
 
+
+            //space 추가
+            item {
+                Spacer(modifier = Modifier.height(10.dp))
+            }
 
             // 상단 이미지
             item {
@@ -112,7 +120,7 @@ fun GalleryGrid(navController: NavHostController) {
                     contentDescription = "Gallery title",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(55.dp)
+                        .height(60.dp)
                         .padding(top = 10.dp)
                 )
             }
