@@ -3,11 +3,11 @@
 ## 프로젝트 이름 : TaroRo (타로로)
 
 ### 프로젝트 설명
-- 한 줄 소개 : "Contact, Gallery, Taro Tab으로 구성된 안드로이드 앱입니다."
+- 한 줄 소개 : "Contact, Gallery, Daily Taro Tab으로 구성된 안드로이드 앱입니다."
 - 슬로건 : "오늘은 어떤 하루가 될까? 당신의 운세를 점쳐보세요!"
 - 언어 : Kotlin, Jetpack Compose
-- Tab1 기능 :
-- Tab2 기능 :
+- Tab1 기능 : 연락처 리스트 
+- Tab2 기능 : 
 - Tab3 기능 : 
 
 ### 팀원 : 최현우, 김문원
