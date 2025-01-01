@@ -13,4 +13,4 @@
 ### 팀원 : 최현우, 김문원
 
 - 움짤 4개 이상 혹은 20초 이상의 동영상(사진 4장 이상도 가능)
-- APK 파일(직접 업로드 혹은 구글 드라이브에 업로드한 후 링크 공유)
+- APK 파일 : https://drive.google.com/file/d/1ZqV_BeFmLcvPcWsB6UCKsZzZNMl6_Vdv/view?usp=sharing
