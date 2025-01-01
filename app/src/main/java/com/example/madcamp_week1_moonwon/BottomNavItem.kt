@@ -10,7 +10,7 @@ import androidx.compose.ui.res.painterResource
 sealed class BottomNavItem(val route: String, val label: String, val iconResId: Int) {
     object Contact : BottomNavItem("contact", "Contact",  R.drawable.contact_page)
     object Gallery : BottomNavItem("gallery", "Gallery", R.drawable.cards_star)
-    object Custom : BottomNavItem("custom", "DailyTarot",R.drawable.daily_spark)
+    object Custom : BottomNavItem("custom", "DailyTaro",R.drawable.daily_spark)
 
 
     @Composable
