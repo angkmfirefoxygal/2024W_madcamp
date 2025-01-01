@@ -374,25 +374,17 @@ fun SearchBox(searchQuery: String, onQueryChanged: (String) -> Unit, onFocusChan
 @Composable
 fun ContactCard(contact: Contact, navController: NavController) {
     Column(
-        //shape = RoundedCornerShape(16.dp),
+
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
             .clickable {
                 // InfoScreen으로 이동하며 name, phone, imageUri를 전달
-                //navController.navigate("info/${contact.name}/${contact.phone}/${contact.imageUri}")
+
 
                 val route = "info/${Uri.encode(contact.name)}/${Uri.encode(contact.phone)}/${Uri.encode(contact.imageUri)}"
                 navController.navigate(route)
             },
-        /*elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp, // 기본 elevation
-            pressedElevation = 8.dp, // 눌렸을 때 elevation
-            focusedElevation = 6.dp  // 포커스 상태의 elevation
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFFFFCE8) // 배경색을 #FFFCE8로 설정
-        )*/
     ) {
         Row(
             modifier = Modifier
