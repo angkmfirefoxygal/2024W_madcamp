@@ -74,6 +74,16 @@ fun CustomScreen(navController: NavController) {
                 .fillMaxHeight()
         )
 
+        Image(
+            painter = painterResource(id = R.drawable.daily_taro),
+            contentDescription = "Friends Contact Header",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 80.dp)
+                .height(65.dp),
+
+            )
+
         val flag1 = remember { mutableStateOf(false) }
         val flag2 = remember { mutableStateOf(false) }
         val flag3 = remember { mutableStateOf(false) }
