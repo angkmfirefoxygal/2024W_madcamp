@@ -193,7 +193,7 @@ fun CustomScreen(navController: NavController) {
                 text = "카드를 뽑아 오늘의 운세를 점쳐보세요!",
                 modifier = Modifier
                     .align(Alignment.BottomCenter) // 화면 아래쪽 가운데 정렬
-                    .padding(bottom = 90.dp)      // 아래쪽 여백 설정
+                    .padding(bottom = 85.dp)      // 아래쪽 여백 설정
                     .alpha(
                         animateFloatAsState(
                             targetValue = alphaValue1,
