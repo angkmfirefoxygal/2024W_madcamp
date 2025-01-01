@@ -183,7 +183,7 @@ fun ExplainScreen(navController : NavController, cardNumber: String?) {
 
                     rootView?.let { view ->
                         // 화면 캡처 수행
-                        val bitmap = captureViewAsBitmap(view, 0, 20,1060, 1800)
+                        val bitmap = captureViewAsBitmap(view, 100, 580)
                         val uri = bitmap?.let { saveBitmapToCache(context, it) } // 비트맵 캐시에 저장
                         capturedUri.value = uri
 
@@ -223,6 +223,7 @@ fun captureViewAsBitmap(view: android.view.View): Bitmap? {
 }
 */
 
+/*
 fun captureViewAsBitmap(view: android.view.View, x: Int, y: Int, width: Int, height: Int): Bitmap? {
     return try {
         // 전체 뷰를 비트맵으로 생성
@@ -237,6 +238,33 @@ fun captureViewAsBitmap(view: android.view.View, x: Int, y: Int, width: Int, hei
         null
     }
 }
+*/
+
+fun captureViewAsBitmap(view: android.view.View, topCropPx: Int, bottomCropPx: Int): Bitmap? {
+    return try {
+        // 전체 뷰를 비트맵으로 생성
+        val fullBitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(fullBitmap)
+        view.draw(canvas)
+
+        // 잘라낼 높이 계산
+        val croppedHeight = fullBitmap.height - topCropPx - bottomCropPx
+
+        // 잘라낼 범위를 계산하고 비트맵 생성
+        if (croppedHeight > 0) {
+            Bitmap.createBitmap(fullBitmap, 0, topCropPx, fullBitmap.width, croppedHeight)
+        } else {
+            null // 잘라낸 결과가 유효하지 않은 경우 null 반환
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+
+
+
 
 
 fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
